@@ -13,6 +13,10 @@ A customized `NSButton` with modern flat style like bootstrap.
 
 ## Installation
 
+### Requirement
+
+macOS 10.9 and above.
+
 ### Cocoapods
 
 1. Add `pod 'SYFlatButton'` to your podfile
