@@ -45,6 +45,10 @@
     [self addTrackingArea:[[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingActiveAlways|NSTrackingInVisibleRect|NSTrackingMouseEnteredAndExited owner:self userInfo:nil]];
 }
 
+- (NSSize)intrinsicContentSize {
+    return [super intrinsicContentSize];
+}
+
 #pragma mark - Drawing method
 
 - (void)drawRect:(NSRect)dirtyRect {
@@ -64,39 +68,136 @@
     self.layer.delegate = self;
     self.layer.backgroundColor = [NSColor redColor].CGColor;
     self.alphaValue = self.isEnabled ? 1.0 : 0.5;
-    [self.layer addSublayer:self.imageLayer];
-    [self.layer addSublayer:self.titleLayer];
 }
 
 - (void)setupImageLayer {
-    if (!self.image) {
+    if (!self.image || self.imagePosition == NSNoImage) {
+        [self.imageLayer removeFromSuperlayer];
         return;
+    } else {
+        [self.layer addSublayer:self.imageLayer];
+        CGSize buttonSize = self.frame.size;
+        CGSize imageSize = self.image.size;
+        CGSize titleSize = [self.title sizeWithAttributes:@{NSFontAttributeName: self.font}];
+        NSRect imageRect = NSMakeRect(0.0, 0.0, imageSize.width, imageSize.height);
+        switch (self.imagePosition) {
+            case NSNoImage:
+                return;
+                break;
+            case NSImageOnly: {
+                CGFloat x = (buttonSize.width - imageSize.width) / 2.0;
+                CGFloat y = (buttonSize.height - imageSize.height) / 2.0;
+                imageRect.origin = CGPointMake(x, y);
+                break;
+            }
+            case NSImageLeading:
+            case NSImageLeft: {
+                CGFloat x = (buttonSize.width - imageSize.width - titleSize.width) / 2.0 - self.spacing;
+                CGFloat y = (buttonSize.height - imageSize.height) / 2.0;
+                imageRect.origin = CGPointMake(x, y);
+                break;
+            }
+            case NSImageTrailing:
+            case NSImageRight: {
+                CGFloat x = (buttonSize.width - imageSize.width + titleSize.width) / 2.0 + self.spacing;
+                CGFloat y = (buttonSize.height - imageSize.height) / 2.0;
+                imageRect.origin = CGPointMake(x, y);
+                break;
+            }
+            case NSImageAbove: {
+                CGFloat x = (buttonSize.width - imageSize.width) / 2.0;
+                CGFloat y = (buttonSize.height - imageSize.height - titleSize.height) / 2.0 - self.spacing;
+                imageRect.origin = CGPointMake(x, y);
+                break;
+            }
+            case NSImageBelow: {
+                CGFloat x = (buttonSize.width - imageSize.width) / 2.0;
+                CGFloat y = (buttonSize.height - imageSize.height + titleSize.height) / 2.0 + self.spacing;
+                imageRect.origin = CGPointMake(x, y);
+                break;
+            }
+            case NSImageOverlaps: {
+                CGFloat x = (buttonSize.width - imageSize.width) / 2.0;
+                CGFloat y = (buttonSize.height - imageSize.height) / 2.0;
+                imageRect.origin = CGPointMake(x, y);
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+        self.imageLayer.frame = self.bounds;
+        self.imageLayer.mask = ({
+            CALayer *layer = [CALayer layer];
+            layer.frame = imageRect;
+            layer.contents = (__bridge id _Nullable)[self.image CGImageForProposedRect:&imageRect context:nil hints:nil];
+            layer;
+        });
     }
-    CALayer *maskLayer = [CALayer layer];
-    CGSize imageSize = self.image.size;
-    maskLayer.frame = NSMakeRect(round((CGRectGetWidth(self.bounds)-imageSize.width)/2.0),
-                                 round((CGRectGetHeight(self.bounds)-imageSize.height)/2.0),
-                                 imageSize.width,
-                                 imageSize.height);
-    NSRect imageRect = NSMakeRect(0.0, 0.0, imageSize.width, imageSize.height);
-    CGImageRef imageRef = [self.image CGImageForProposedRect:&imageRect context:nil hints:nil];
-    maskLayer.contents = (__bridge id _Nullable)(imageRef);
-    self.imageLayer.frame = self.bounds;
-    self.imageLayer.mask = maskLayer;
 }
 
 - (void)setupTitleLayer {
-    if (!self.layer || !self.font) {
+    if (!self.title || self.imagePosition == NSImageOnly) {
+        [self.titleLayer removeFromSuperlayer];
         return;
+    } else {
+        [self.layer addSublayer:self.titleLayer];
+        CGSize buttonSize = self.frame.size;
+        CGSize imageSize = self.image.size;
+        CGSize titleSize = [self.title sizeWithAttributes:@{NSFontAttributeName: self.font}];
+        CGRect titleRect = CGRectMake(0.0, 0.0, titleSize.width, titleSize.height);
+        switch (self.imagePosition) {
+            case NSImageOnly: {
+                return;
+                break;
+            }
+            case NSNoImage: {
+                CGFloat x = (buttonSize.width - titleSize.width) / 2.0;
+                CGFloat y = (buttonSize.height - titleSize.height) / 2.0;
+                titleRect.origin = CGPointMake(x, y);
+                break;
+            }
+            case NSImageLeading:
+            case NSImageLeft: {
+                CGFloat x = (buttonSize.width + imageSize.width - titleSize.width) / 2.0 + self.spacing;
+                CGFloat y = (buttonSize.height - titleSize.height) / 2.0;
+                titleRect.origin = CGPointMake(x, y);
+                break;
+            }
+            case NSImageTrailing:
+            case NSImageRight: {
+                CGFloat x = (buttonSize.width - imageSize.width - titleSize.width) / 2.0 - self.spacing;
+                CGFloat y = (buttonSize.height - titleSize.height) / 2.0;
+                titleRect.origin = CGPointMake(x, y);
+                break;
+            }
+            case NSImageAbove: {
+                CGFloat x = (buttonSize.width - titleSize.width) / 2.0;
+                CGFloat y = (buttonSize.height + imageSize.height - titleSize.height) / 2.0 + self.spacing;
+                titleRect.origin = CGPointMake(x, y);
+                break;
+            }
+            case NSImageBelow: {
+                CGFloat x = (buttonSize.width - titleSize.width) / 2.0;
+                CGFloat y = (buttonSize.height - imageSize.height - titleSize.height) / 2.0 - self.spacing;
+                titleRect.origin = CGPointMake(x, y);
+                break;
+            }
+            case NSImageOverlaps: {
+                CGFloat x = (buttonSize.width - titleSize.width) / 2.0;
+                CGFloat y = (buttonSize.height - titleSize.height) / 2.0;
+                titleRect.origin = CGPointMake(x, y);
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+        self.titleLayer.frame = titleRect;
+        self.titleLayer.string = self.title;
+        self.titleLayer.font = (__bridge CFTypeRef _Nullable)(self.font);
+        self.titleLayer.fontSize = self.font.pointSize;
     }
-    CGSize titleSize = [self.title sizeWithAttributes:@{NSFontAttributeName: self.font}];
-    self.titleLayer.frame = NSMakeRect(round((CGRectGetWidth(self.bounds)-titleSize.width)/2.0),
-                                       round((CGRectGetHeight(self.bounds)-titleSize.height)/2.0),
-                                       titleSize.width,
-                                       titleSize.height);
-    self.titleLayer.string = self.title;
-    self.titleLayer.font = (__bridge CFTypeRef _Nullable)(self.font);
-    self.titleLayer.fontSize = self.font.pointSize;
 }
 
 #pragma mark - Animation method
@@ -202,6 +303,12 @@
     [self animateColorWithState:state];
 }
 
+- (void)setImagePosition:(NSCellImagePosition)imagePosition {
+    [super setImagePosition:imagePosition];
+    [self setupImageLayer];
+    [self setupTitleLayer];
+}
+
 - (void)setMomentary:(BOOL)momentary {
     _momentary = momentary;
     [self animateColorWithState:self.state];
@@ -215,6 +322,12 @@
 - (void)setBorderWidth:(CGFloat)borderWidth {
     _borderWidth = borderWidth;
     self.layer.borderWidth = _borderWidth;
+}
+
+- (void)setSpacing:(CGFloat)spacing {
+    _spacing = spacing;
+    [self setupImageLayer];
+    [self setupTitleLayer];
 }
 
 - (void)setBorderNormalColor:(NSColor *)borderNormalColor {
