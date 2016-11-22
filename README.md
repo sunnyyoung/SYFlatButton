@@ -1,5 +1,6 @@
 # SYFlatButton
 
+[![Build Status](https://travis-ci.org/Sunnyyoung/SYFlatButton.svg?branch=master)](https://travis-ci.org/Sunnyyoung/SYFlatButton)
 ![License MIT](https://img.shields.io/github/license/mashape/apistatus.svg)
 ![Platform info](https://img.shields.io/badge/platform-macOS-lightgrey.svg)
 

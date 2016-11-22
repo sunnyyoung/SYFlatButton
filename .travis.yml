@@ -1,0 +1,4 @@
+language: objective-c
+xcode_project: SYFlatButton.xcodeproj
+xcode_scheme: SYFlatButton
+script: xctool -project SYFlatButton.xcodeproj -scheme SYFlatButton
