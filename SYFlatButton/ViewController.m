@@ -26,4 +26,8 @@
 //    [self.view addSubview:button];
 }
 
+- (IBAction)loginAction:(SYFlatButton *)sender {
+    NSLog(@"%@", sender.title);
+}
+
 @end

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -724,6 +724,9 @@
                                                 <color key="value" red="0.16862745100000001" green="0.73333333329999995" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="loginAction:" target="XfG-lQ-9wD" id="U6n-vh-sgH"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Imn-8L-xTL" customClass="SYFlatButton">
                                         <rect key="frame" x="88" y="164" width="64" height="32"/>
@@ -762,6 +765,9 @@
                                                 <color key="value" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="loginAction:" target="XfG-lQ-9wD" id="JeM-Lm-4I7"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wlA-0z-sf0" customClass="SYFlatButton">
                                         <rect key="frame" x="88" y="122" width="64" height="32"/>
@@ -800,6 +806,9 @@
                                                 <color key="value" red="0.20000000000000001" green="0.59999999999999998" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="loginAction:" target="XfG-lQ-9wD" id="Zlu-WB-LRa"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q9r-IM-ZH2" customClass="SYFlatButton">
                                         <rect key="frame" x="88" y="80" width="64" height="32"/>
@@ -838,6 +847,9 @@
                                                 <color key="value" red="0.59999999999999998" green="0.0" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="loginAction:" target="XfG-lQ-9wD" id="ZJq-pu-xv7"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="L25-Cf-WXA" customClass="SYFlatButton">
                                         <rect key="frame" x="88" y="6" width="64" height="64"/>
@@ -885,6 +897,9 @@
                                                 <real key="value" value="0.0"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="loginAction:" target="XfG-lQ-9wD" id="k9u-Yt-HsJ"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -946,6 +961,9 @@
                                                 <color key="value" red="1" green="0.20000000000000001" blue="0.80000000000000004" alpha="0.0" colorSpace="calibratedRGB"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="loginAction:" target="XfG-lQ-9wD" id="bTP-L8-gli"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lLM-m3-e0D" customClass="SYFlatButton">
                                         <rect key="frame" x="88" y="164" width="64" height="32"/>
@@ -990,6 +1008,9 @@
                                                 <color key="value" red="1" green="0.20000000000000001" blue="0.80000000000000004" alpha="0.0" colorSpace="calibratedRGB"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="loginAction:" target="XfG-lQ-9wD" id="jey-Dx-w3T"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xGD-DG-ZPx" customClass="SYFlatButton">
                                         <rect key="frame" x="88" y="122" width="64" height="32"/>
@@ -1034,6 +1055,9 @@
                                                 <color key="value" red="1" green="0.20000000000000001" blue="0.80000000000000004" alpha="0.0" colorSpace="calibratedRGB"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="loginAction:" target="XfG-lQ-9wD" id="2fQ-nf-sHj"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4N7-iK-Pg2" customClass="SYFlatButton">
                                         <rect key="frame" x="88" y="80" width="64" height="32"/>
@@ -1078,6 +1102,9 @@
                                                 <color key="value" red="1" green="0.20000000000000001" blue="0.80000000000000004" alpha="0.0" colorSpace="calibratedRGB"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="loginAction:" target="XfG-lQ-9wD" id="89I-QL-RIf"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kUO-vO-psS" customClass="SYFlatButton">
                                         <rect key="frame" x="88" y="6" width="64" height="64"/>
@@ -1122,6 +1149,9 @@
                                                 <color key="value" red="1" green="0.20000000000000001" blue="0.80000000000000004" alpha="0.0" colorSpace="calibratedRGB"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="loginAction:" target="XfG-lQ-9wD" id="chO-JL-bWZ"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>

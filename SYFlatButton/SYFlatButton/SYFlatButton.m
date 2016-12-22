@@ -266,10 +266,7 @@
         if (self.momentary) {
             self.state = (self.state == NSOnState) ? NSOffState : NSOnState;
         }
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        [self.target performSelector:self.action withObject:self];
-#pragma clang diagnostic pop
+        [NSApp sendAction:self.action to:self.target from:self];
     }
 }
 
