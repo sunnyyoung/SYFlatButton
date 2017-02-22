@@ -52,5 +52,9 @@ button.backgroundHighlightColor = [NSColor redColor];
 [self.view addSubview:button];
 ```
 
+## Credit
+
+Inspired by [FlatButton](https://github.com/OskarGroth/FlatButton).
+
 ## License
 The [MIT License](LICENSE).
