@@ -125,7 +125,7 @@
     self.imageLayer.frame = self.bounds;
     self.imageLayer.mask = ({
         CALayer *layer = [CALayer layer];
-        NSRect rect = NSMakeRect(x, y, imageSize.width, imageSize.height);
+        NSRect rect = NSMakeRect(round(x), round(y), imageSize.width, imageSize.height);
         layer.frame = rect;
         layer.contents = (__bridge id _Nullable)[self.image CGImageForProposedRect:&rect context:nil hints:nil];
         layer;
@@ -190,7 +190,7 @@
     }
     
     // Setup title layer
-    self.titleLayer.frame = NSMakeRect(x, y, titleSize.width, titleSize.height);
+    self.titleLayer.frame = NSMakeRect(round(x), round(y), ceil(titleSize.width), ceil(titleSize.height));
     self.titleLayer.string = self.title;
     self.titleLayer.font = (__bridge CFTypeRef _Nullable)(self.font);
     self.titleLayer.fontSize = self.font.pointSize;
