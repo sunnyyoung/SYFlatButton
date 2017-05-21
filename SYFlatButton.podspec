@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SYFlatButton"
-  s.version      = "1.2"
+  s.version      = "1.3"
   s.summary      = "A customized NSButton with modern flat style like bootstrap."
   s.homepage     = "https://github.com/Sunnyyoung/SYFlatButton"
   s.license      = "MIT"
