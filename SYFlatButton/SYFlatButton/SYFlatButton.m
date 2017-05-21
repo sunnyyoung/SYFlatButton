@@ -201,11 +201,9 @@
 
 - (void)removeAllAnimations {
     [self.layer removeAllAnimations];
-    if (self.layer.sublayers.count) {
-        for (CALayer *layer in self.layer.sublayers) {
-            [layer removeAllAnimations];
-        }
-    }
+    [self.layer.sublayers enumerateObjectsUsingBlock:^(CALayer * _Nonnull layer, NSUInteger index, BOOL * _Nonnull stop) {
+        [layer removeAllAnimations];
+    }];
 }
 
 - (void)animateColorWithState:(NSCellStateValue)state {
@@ -222,15 +220,15 @@
 }
 
 - (void)animateLayer:(CALayer *)layer color:(NSColor *)color keyPath:(NSString *)keyPath duration:(CGFloat)duration {
-    if ((__bridge CGColorRef _Nullable)[layer valueForKeyPath:keyPath] != color.CGColor) {
+    CGColorRef oldColor = (__bridge CGColorRef)([layer valueForKeyPath:keyPath]);
+    if (!(CGColorEqualToColor(oldColor, color.CGColor))) {
         CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:keyPath];
         animation.fromValue = [layer valueForKeyPath:keyPath];
-        animation.toValue = (__bridge id _Nullable)(color.CGColor);
+        animation.toValue = (id)color.CGColor;
         animation.duration = duration;
         animation.removedOnCompletion = NO;
-        animation.fillMode = kCAFillModeForwards;
         [layer addAnimation:animation forKey:keyPath];
-        [layer setValue:(__bridge id _Nullable)color.CGColor forKey:keyPath];
+        [layer setValue:(id)color.CGColor forKey:keyPath];
     }
 }
 
