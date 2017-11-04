@@ -16,7 +16,7 @@ A customized `NSButton` with modern flat style like bootstrap.
 
 ### Requirement
 
-macOS 10.9 and above.
+macOS 10.12 and above.
 
 ### Cocoapods
 
@@ -57,4 +57,5 @@ button.backgroundHighlightColor = [NSColor redColor];
 Inspired by [FlatButton](https://github.com/OskarGroth/FlatButton).
 
 ## License
+
 The [MIT License](LICENSE).
