@@ -264,7 +264,12 @@
         if (self.momentary) {
             self.state = (self.state == NSOnState) ? NSOffState : NSOnState;
         }
-        [NSApp sendAction:self.action to:self.target from:self];
+        NSPoint eventLocation = [event locationInWindow];
+        NSPoint point = [self convertPoint:eventLocation fromView:nil];
+        if (NSPointInRect(point, self.bounds)) {
+            //松开位置在按钮范围内
+            [NSApp sendAction:self.action to:self.target from:self];
+        }
     }
 }
 
