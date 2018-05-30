@@ -206,6 +206,8 @@
     self.titleLayer.string = self.title;
     self.titleLayer.font = (__bridge CFTypeRef _Nullable)(self.font);
     self.titleLayer.fontSize = self.font.pointSize;
+	self.titleLayer.contentsScale = NSScreen.mainScreen.backingScaleFactor; // this is necessary so the text isn't blurry
+	
     [self.layer addSublayer:self.titleLayer];
 }
 
