@@ -21,11 +21,15 @@ IB_DESIGNABLE
 @property (nonatomic, assign) IBInspectable CGFloat spacing;                    // Default:0.0  - Button's spacint between image and title
 @property (nonatomic, strong) IBInspectable NSColor *borderNormalColor;         // Default:nil  - Button's border color when state off
 @property (nonatomic, strong) IBInspectable NSColor *borderHighlightColor;      // Default:nil  - Button's border color when state on
+@property (nonatomic, strong) IBInspectable NSColor *borderDisabledColor;         // Default:nil  - Button's border color when disabled
 @property (nonatomic, strong) IBInspectable NSColor *backgroundNormalColor;     // Default:nil  - Button's background color when state off
 @property (nonatomic, strong) IBInspectable NSColor *backgroundHighlightColor;  // Default:nil  - Button's background color when state on
+@property (nonatomic, strong) IBInspectable NSColor *backgroundDisabledColor;     // Default:nil  - Button's background color when disabled
 @property (nonatomic, strong) IBInspectable NSColor *imageNormalColor;          // Default:nil  - Button's image color when state off
 @property (nonatomic, strong) IBInspectable NSColor *imageHighlightColor;       // Default:nil  - Button's image color when state on
+@property (nonatomic, strong) IBInspectable NSColor *imageDisabledColor;       // Default:nil  - Button's image color when disabled
 @property (nonatomic, strong) IBInspectable NSColor *titleNormalColor;          // Default:nil  - Button's title color when state off
 @property (nonatomic, strong) IBInspectable NSColor *titleHighlightColor;       // Default:nil  - Button's title color when state on
+@property (nonatomic, strong) IBInspectable NSColor *titleDisabledColor;       // Default:nil  - Button's title color when state on
 
 @end
