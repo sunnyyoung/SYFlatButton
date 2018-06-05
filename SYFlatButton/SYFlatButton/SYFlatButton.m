@@ -13,6 +13,7 @@
 @property (nonatomic, strong) CAShapeLayer *imageLayer;
 @property (nonatomic, strong) CATextLayer *titleLayer;
 @property (nonatomic, assign) BOOL mouseDown;
+@property NSMutableDictionary *fontFamilyNameToYOffsetMap; // used to offet certain fonts so they are properly centered vertically
 
 @end
 
@@ -24,8 +25,6 @@
     self = [super initWithCoder:coder];
     if (self) {
         [self setup];
-        [self setupImageLayer];
-        [self setupTitleLayer];
     }
     return self;
 }
@@ -34,8 +33,6 @@
     self = [super initWithFrame:frameRect];
     if (self) {
         [self setup];
-        [self setupImageLayer];
-        [self setupTitleLayer];
     }
     return self;
 }
@@ -59,11 +56,20 @@
 
 - (void)setup {
     // Setup layer
+	self.layer = [CALayer new];
     self.wantsLayer = YES;
     self.layer.masksToBounds = YES;
     self.layer.delegate = self;
     self.layer.backgroundColor = [NSColor redColor].CGColor;
-    self.alphaValue = self.isEnabled ? 1.0 : 0.5;
+	
+	// setup the list of custom y-offsets for specific fonts so they are vertically aligned
+	self.fontFamilyNameToYOffsetMap = [NSMutableDictionary new];
+	self.fontFamilyNameToYOffsetMap[@"Titillium Web"] = @(-4);
+	
+	// setup the rest of the control
+	[self setupImageLayer];
+	[self setupTitleLayer];
+	[self animateColorForCurrentState];
 }
 
 - (void)setupImageLayer {
@@ -145,7 +151,14 @@
     CGSize titleSize = [self.title sizeWithAttributes:@{NSFontAttributeName: self.font}];
     CGFloat x = 0.0; // Title's origin x
     CGFloat y = 0.0; // Title's origin y
-    
+	
+	// check if this font needs a specific fix to be centered vertically
+	// (some fonts display too much white space above or below the text)
+	if ([self.fontFamilyNameToYOffsetMap objectForKey:self.font.familyName] != nil) {
+		NSNumber *yOffset = self.fontFamilyNameToYOffsetMap[self.font.familyName];
+		titleSize.height += yOffset.floatValue;
+	}
+
     // Caculate the image's and title's position depends on button's imagePosition and imageHugsTitle property
     switch (self.imagePosition) {
         case NSImageOnly: {
@@ -194,6 +207,8 @@
     self.titleLayer.string = self.title;
     self.titleLayer.font = (__bridge CFTypeRef _Nullable)(self.font);
     self.titleLayer.fontSize = self.font.pointSize;
+	self.titleLayer.contentsScale = NSScreen.mainScreen.backingScaleFactor; // this is necessary so the text isn't blurry
+	
     [self.layer addSublayer:self.titleLayer];
 }
 
@@ -206,13 +221,14 @@
     }];
 }
 
-- (void)animateColorWithState:(NSCellStateValue)state {
+- (void)animateColorForCurrentState {
     [self removeAllAnimations];
-    CGFloat duration = (state == NSOnState) ? self.onAnimateDuration : self.offAnimateDuration;
-    NSColor *borderColor = (state == NSOnState) ? self.borderHighlightColor : self.borderNormalColor;
-    NSColor *backgroundColor = (state == NSOnState) ? self.backgroundHighlightColor : self.backgroundNormalColor;
-    NSColor *titleColor = (state == NSOnState) ? self.titleHighlightColor : self.titleNormalColor;
-    NSColor *imageColor = (state == NSOnState) ? self.imageHighlightColor : self.imageNormalColor;
+    CGFloat duration = (self.state == NSOnState) ? self.onAnimateDuration : self.offAnimateDuration;
+	
+	NSColor *borderColor = (self.isEnabled == NO) ? self.borderDisabledColor : (self.state == NSOnState) ? self.borderHighlightColor : self.borderNormalColor;
+    NSColor *backgroundColor = (self.isEnabled == NO) ? self.backgroundDisabledColor : (self.state == NSOnState) ? self.backgroundHighlightColor : self.backgroundNormalColor;
+    NSColor *titleColor = (self.isEnabled == NO) ? self.titleDisabledColor : (self.state == NSOnState) ? self.titleHighlightColor : self.titleNormalColor;
+    NSColor *imageColor = (self.isEnabled == NO) ? self.imageDisabledColor : (self.state == NSOnState) ? self.imageHighlightColor : self.imageNormalColor;
     [self animateLayer:self.layer color:borderColor keyPath:@"borderColor" duration:duration];
     [self animateLayer:self.layer color:backgroundColor keyPath:@"backgroundColor" duration:duration];
     [self animateLayer:self.imageLayer color:imageColor keyPath:@"backgroundColor" duration:duration];
@@ -292,7 +308,7 @@
 
 - (void)setState:(NSInteger)state {
     [super setState:state];
-    [self animateColorWithState:state];
+	[self animateColorForCurrentState];
 }
 
 - (void)setImagePosition:(NSCellImagePosition)imagePosition {
@@ -303,7 +319,7 @@
 
 - (void)setMomentary:(BOOL)momentary {
     _momentary = momentary;
-    [self animateColorWithState:self.state];
+    [self animateColorForCurrentState];
 }
 
 - (void)setCornerRadius:(CGFloat)cornerRadius {
@@ -324,42 +340,67 @@
 
 - (void)setBorderNormalColor:(NSColor *)borderNormalColor {
     _borderNormalColor = borderNormalColor;
-    [self animateColorWithState:self.state];
+    [self animateColorForCurrentState];
 }
 
 - (void)setBorderHighlightColor:(NSColor *)borderHighlightColor {
     _borderHighlightColor = borderHighlightColor;
-    [self animateColorWithState:self.state];
+    [self animateColorForCurrentState];
+}
+
+- (void)setBorderDisabledColor:(NSColor *)borderDisabledColor {
+	_borderDisabledColor = borderDisabledColor;
+	[self animateColorForCurrentState];
 }
 
 - (void)setBackgroundNormalColor:(NSColor *)backgroundNormalColor {
     _backgroundNormalColor = backgroundNormalColor;
-    [self animateColorWithState:self.state];
+    [self animateColorForCurrentState];
 }
 
 - (void)setBackgroundHighlightColor:(NSColor *)backgroundHighlightColor {
     _backgroundHighlightColor = backgroundHighlightColor;
-    [self animateColorWithState:self.state];
+    [self animateColorForCurrentState];
+}
+
+- (void)setBackgroundDisabledColor:(NSColor *)backgroundDisabledColor {
+	_backgroundDisabledColor = backgroundDisabledColor;
+	[self animateColorForCurrentState];
 }
 
 - (void)setImageNormalColor:(NSColor *)imageNormalColor {
     _imageNormalColor = imageNormalColor;
-    [self animateColorWithState:self.state];
+    [self animateColorForCurrentState];
 }
 
 - (void)setImageHighlightColor:(NSColor *)imageHighlightColor {
     _imageHighlightColor = imageHighlightColor;
-    [self animateColorWithState:self.state];
+    [self animateColorForCurrentState];
+}
+
+- (void)setImageDisabledColor:(NSColor *)imageDisabledColor {
+	_imageDisabledColor = imageDisabledColor;
+	[self animateColorForCurrentState];
 }
 
 - (void)setTitleNormalColor:(NSColor *)titleNormalColor {
     _titleNormalColor = titleNormalColor;
-    [self animateColorWithState:self.state];
+    [self animateColorForCurrentState];
 }
 
 - (void)setTitleHighlightColor:(NSColor *)titleHighlightColor {
     _titleHighlightColor = titleHighlightColor;
-    [self animateColorWithState:self.state];
+    [self animateColorForCurrentState];
+}
+
+- (void)setTitleDisabledColor:(NSColor *)titleDisabledColor {
+	_titleDisabledColor = titleDisabledColor;
+	[self animateColorForCurrentState];
+}
+
+- (void)setEnabled:(BOOL)enabled {
+	super.enabled = enabled;
+	[self animateColorForCurrentState];
 }
 
 - (CAShapeLayer *)imageLayer {
