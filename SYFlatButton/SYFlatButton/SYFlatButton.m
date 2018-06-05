@@ -56,6 +56,7 @@
 
 - (void)setup {
     // Setup layer
+	self.layer = [CALayer new];
     self.wantsLayer = YES;
     self.layer.masksToBounds = YES;
     self.layer.delegate = self;
@@ -68,7 +69,7 @@
 	// setup the rest of the control
 	[self setupImageLayer];
 	[self setupTitleLayer];
-	//[self animateColorForCurrentState];
+	[self animateColorForCurrentState];
 }
 
 - (void)setupImageLayer {
